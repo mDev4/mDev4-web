@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -30,10 +30,10 @@ import { Location } from '@angular/common';
 	`
 })
 
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
 	private title: Object;
-    private allTitles: Object[] = [
+    private allTitles: any[] = [
         {
             'name': 'Home',
             'link': ''
@@ -60,6 +60,5 @@ export class HeaderComponent implements OnInit {
 
         this.title = this.allTitles
 			.filter(item => item.link === location.hash);
-
     }
 }	

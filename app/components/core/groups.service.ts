@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/Rx';
 
 export class Group {
-	private id: number;
+	public id: number;
 	private name: string;
 	private current_academic_year: Date;
 	private current_year_of_study: number;
@@ -18,6 +18,10 @@ export class Group {
 		this.current_academic_year = current_academic_year;
 		this.current_year_of_study = current_year_of_study;
 		this.start_year = start_year;
+	}
+
+	public getId() : number {
+		return this.id;
 	}
 }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouteSegment } from '@angular/router';
 
-import { Group, Student, GroupService } from '../core/groups.service';
+import { Group, Student, GroupService } from '../core/data.service';
 
 @Component({
 	selector: 'hero-detail',

@@ -133,6 +133,6 @@ import { Component } from '@angular/core';
 	`
 })
 
-export class DashboardComponent {
+export class HomepageComponent {
 
 }

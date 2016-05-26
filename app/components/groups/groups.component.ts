@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Group, GroupService } from '../core/groups.service';
+import { Group, GroupService } from '../core/data.service';
 
 @Component({
 	selector: 'groups',

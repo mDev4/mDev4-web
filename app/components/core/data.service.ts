@@ -48,6 +48,34 @@ export class Student {
 	}
 }
 
+export class User {
+	private id: number;
+	private username: string;
+	private password: string;
+	private clearance: number;
+	private email: string;
+	private phone: string;
+	private first_name: string;
+	private last_name: string;
+	private sex: string;
+
+	constructor(id: number, username: string,
+				password: string, clearance: number,
+				email: string, phone: string, 
+				first_name: string, last_name: string,
+				sex: string) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.clearance = clearance;
+		this.email = email;
+		this.phone = phone;
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.sex = sex;
+	}
+}
+
 @Injectable()
 
 export class GroupService {

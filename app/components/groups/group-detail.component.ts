@@ -1,20 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouteSegment } from '@angular/router';
 
-import { Group, Student, GroupService } from '../core/data.service';
+import { Group, Student, DataService } from '../core/data.service';
 
 @Component({
 	selector: 'hero-detail',
-	providers: [ GroupService ],
+	providers: [DataService],
 	template: `
 		<div class="mdl-grid" *ngIf="group && group.length > 0">
   			<div class="mdl-cell mdl-cell--1-col">
 				<button class="mdl-button mdl-js-button mdl-button--raised" (click)="goBack()">
 					Back
 				</button>
-  			</div>
-  			<div class="mdl-cell mdl-cell--3-col">
-				<h3 *ngFor="let group of group">{{ group.name }}</h3>
   			</div>
 		</div>
 		
@@ -89,12 +86,12 @@ export class GroupDetailComponent implements OnInit {
 	constructor(
 		private curr: RouteSegment,
 		private router: Router,
-		private groupService: GroupService) { }
+		private dataService: DataService) { }
 
 	ngOnInit() {
 		this.selectedGroup = this.curr.getParam('id');
 
-		this.groupService.getDetailsGroup(this.selectedGroup)
+		this.dataService.getDetailsGroup(this.selectedGroup)
 			.subscribe(data => {
 
 				this.group = data

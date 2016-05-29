@@ -2,8 +2,12 @@
 import { MDL } from './directives/material-design';
 
 import { ROUTER_DIRECTIVES, Routes } from '@angular/router';
+import { Location } from '@angular/common';
 
-import { User } from './components/core/data.service';
+import { User, DataService } from './components/core/data.service';
+
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -13,37 +17,17 @@ import { GroupDetailComponent } from './components/groups/group-detail.component
 
 @Component({
     selector: 'lvs-app',
-    directives: [ROUTER_DIRECTIVES, MDL, HeaderComponent, SidebarComponent],
+    directives: [ROUTER_DIRECTIVES, MDL, HeaderComponent, SidebarComponent, LoginComponent],
+    providers: [ DataService ],
     template: `
-        <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header" *ngIf="activeUser">
+        <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header" *ngIf="userId">
         	<app-header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600"></app-header>
     		<sidebar mdl class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50"></sidebar>
         	<main class="mdl-layout__content mdl-color--grey-100">
     			<router-outlet></router-outlet>
         	</main>
         </div>
-        <dialog class="mdl-dialog" open>
-            <h4 class="mdl-dialog__title">Login Leerlingvolgsysteem</h4>
-            <div class="mdl-dialog__content">
-                <p>
-                    Allowing us to collect data will let us get you the information you want faster.
-                </p>
-				<form action="#">
-					<div class="mdl-textfield">
-						<label for="sample1">Username</label>
-						<input class="mdl-textfield__input" type="text" id="sample1">
-					</div>
-					<div class="mdl-textfield mdl-js-textfield">
-						<label for="sample1">Password</label>
-						<input class="mdl-textfield__input" type="text" id="sample1">
-					</div>
-				</form>
-            </div>
-			<div class="mdl-dialog__actions">
-                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" (click)="login()">Login</button>
-                <button type="button" class="mdl-button">Nieuw account</button>
-            </div>
-        </dialog>
+        <login (activeUser)="userLogin($event)" *ngIf="!userId"></login>
 	`,
     styles: [
     `
@@ -57,15 +41,37 @@ import { GroupDetailComponent } from './components/groups/group-detail.component
 
 @Routes([
 	{ path: '/home', component: HomepageComponent },
+	{ path: '/login', component: LoginComponent },
+	{ path: '/signup', component: SignupComponent },
     { path: '/groups', component: GroupsComponent },
     { path: '/group/:id', component: GroupDetailComponent },
     { path: '*', component: HomepageComponent }
 ])
 
 export class AppComponent implements OnInit {
-    public activeUser: User;
+    private userId: number;
+    private activeUser: User;
+
+    constructor(
+        private dataService: DataService,
+        private location: Location) {}
 
     ngOnInit() {
-    
+        
+        this.userId = localStorage.getItem('userId');
+
+        if (this.userId) {
+            this.dataService.getUser(this.userId)
+                .subscribe(data => {
+                    this.activeUser = data;
+                });
+        } else {
+            this.location.replaceState('/');
+        }
+    }
+
+    userLogin(user) {
+        this.userId = user.id;
+        this.activeUser = user;
     }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http'; 
+import { contentHeaders } from '../../common/headers';
 import 'rxjs/Rx';
 
 export class Group {
@@ -78,11 +79,20 @@ export class User {
 
 @Injectable()
 
-export class GroupService {
-	// private dashboardSensors: Sensor[] = [];
+export class DataService {
 
-	constructor(private http: Http) {
+	constructor(private http: Http) {}
 
+	userLogin(body) {
+		return this.http
+			.post('http://localhost:4000/users/login', body, { headers: contentHeaders })
+			.map(res => res.json());
+	}
+
+	getUser(userId) {
+		return this.http
+			.get('http://localhost:4000/users/' + userId)
+			.map(res => res.json());
 	}
 
 	getAllGroups() {
@@ -97,11 +107,4 @@ export class GroupService {
 			.map(res => res.json());
 	}
 
-	// addToDashboard(sensor: Sensor) {
- //        this.dashboardSensors.push(sensor);
- //    }
-
- //    getDashboardSensors(): Sensor[] {
- //        return this.dashboardSensors;
- //    }
 }

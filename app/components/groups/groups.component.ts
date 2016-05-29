@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Group, GroupService } from '../core/data.service';
+import { Group, DataService } from '../core/data.service';
 
 @Component({
 	selector: 'groups',
-	providers: [ GroupService ],
+	providers: [ DataService ],
 	template: `
+		<div class="mdl-spinner mdl-js-spinner is-active"></div>
 		<table class="mdl-data-table mdl-js-data-table mdl-cell--12-col" *ngIf="groups && groups.length > 0">
 		    <thead>
 		        <tr>
@@ -34,10 +35,10 @@ export class GroupsComponent implements OnInit {
 
 	constructor(
 		private router: Router,
-		private groupService: GroupService) { }
+		private dataService: DataService) { }
 
 	ngOnInit() {
-		this.groupService.getAllGroups()
+		this.dataService.getAllGroups()
 			.subscribe(data => {
 				this.groups = data;
 			});

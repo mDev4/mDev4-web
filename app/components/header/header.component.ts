@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 	selector: 'app-header',
 	template: `
 		<div class="mdl-layout__header-row">
-			<span class="mdl-layout-title" *ngFor="let value of title">{{ value.name }}</span>
+			<span class="mdl-layout-title">{{ title }}</span>
 			<div class="mdl-layout-spacer"></div>
 			<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
 				<label class="mdl-button mdl-js-button mdl-button--icon" for="search">
@@ -30,35 +30,24 @@ import { Location } from '@angular/common';
 	`
 })
 
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
-	private title: Object;
-    private allTitles: any[] = [
-        {
-            'name': 'Home',
-            'link': ''
-        },
-        {
-            'name': 'Klassen',
-            'link': '#/groups'
-        },
-        {
-            'name': 'Meldingen',
-            'link': '#/Messages'
-        }
-    ]
+	private title: string;
 
     constructor(
-        private router: Router,
-        private location: Location) {
-        this.router.changes.subscribe(() => {
+        private location: Location,
+        private router: Router) {
+		this.router.changes.subscribe(() => {
             this.getRoute();
         });
     }
 
-    getRoute() {
+    ngOnInit() {
+		this.title = location.hash;
+		console.log(location.hash);
+    }
 
-        this.title = this.allTitles
-			.filter(item => item.link === location.hash);
+    getRoute() {
+        this.title = location.hash;
     }
 }	

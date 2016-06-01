@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouteSegment } from '@angular/router';
 
-import { Group, Student, DataService } from '../core/data.service';
+import { DataService } from '../../services/data.service';
+import { Group, Student } from '../../models/models';
 
 @Component({
-	selector: 'hero-detail',
-	providers: [DataService],
+	selector: 'group-detail',
 	template: `
 		<div class="mdl-grid" *ngIf="group && group.length > 0">
   			<div class="mdl-cell mdl-cell--1-col">
@@ -37,7 +37,7 @@ import { Group, Student, DataService } from '../core/data.service';
 
 		<div class="mdl-grid" *ngIf="students && students.length > 0">
   			<div class="mdl-cell mdl-cell--3-col">
-				<h3>Studenten</h3>
+				<h4>Studenten</h4>
   			</div>
 		</div>
 
@@ -53,7 +53,8 @@ import { Group, Student, DataService } from '../core/data.service';
 		        </tr>
 		    </thead>
 		    <tbody>
-		        <tr *ngFor="let student of students">
+		        <tr *ngFor="let student of students"
+		        	(click)="onSelect(student)">
 		            <td class="mdl-data-table__cell--non-numeric">{{ student.student_code }}</td>
 		            <td class="mdl-data-table__cell--non-numeric">{{ student.particulars }}</td>
 		            <td class="mdl-data-table__cell--non-numeric">{{ student.birth_date }}</td>
@@ -111,5 +112,9 @@ export class GroupDetailComponent implements OnInit {
 
 	goBack() {
 		this.router.navigate(['/groups']);
+	}
+
+	onSelect(student: Student) {
+		this.router.navigate(['/student', student.id]);
 	}
 }

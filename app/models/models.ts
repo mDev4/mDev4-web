@@ -1,8 +1,3 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http'; 
-import { contentHeaders } from '../../common/headers';
-import 'rxjs/Rx';
-
 export class Group {
 	public id: number;
 	private name: string;
@@ -10,10 +5,10 @@ export class Group {
 	private current_year_of_study: number;
 	private start_year: Date;
 
-	constructor(id: number, name: string, 
-				current_academic_year: Date, 
-				current_year_of_study: number, 
-				start_year: Date) {
+	constructor(id: number, name: string,
+		current_academic_year: Date,
+		current_year_of_study: number,
+		start_year: Date) {
 		this.id = id;
 		this.name = name;
 		this.current_academic_year = current_academic_year;
@@ -21,12 +16,13 @@ export class Group {
 		this.start_year = start_year;
 	}
 
-	public getId() : number {
+	public getId(): number {
 		return this.id;
 	}
 }
 
 export class Student {
+	public id: number;
 	private student_code: string;
 	private particulars: string;
 	private birth_date: Date;
@@ -35,10 +31,11 @@ export class Student {
 	private last_name: string;
 	private sex: string;
 
-	constructor(student_code: string, particulars: string, 
-				birth_date: Date, first_name: string, 
-				middle_name: string, last_name: string, 
-				sex: string) {
+	constructor(id: number, student_code: string, particulars: string,
+		birth_date: Date, first_name: string,
+		middle_name: string, last_name: string,
+		sex: string) {
+		this.id = id;
 		this.student_code = student_code;
 		this.particulars = particulars;
 		this.birth_date = birth_date;
@@ -61,10 +58,10 @@ export class User {
 	private sex: string;
 
 	constructor(id: number, username: string,
-				password: string, clearance: number,
-				email: string, phone: string, 
-				first_name: string, last_name: string,
-				sex: string) {
+		password: string, clearance: number,
+		email: string, phone: string,
+		first_name: string, last_name: string,
+		sex: string) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -77,34 +74,26 @@ export class User {
 	}
 }
 
-@Injectable()
+export class Announcement {
+	private id: number;
+	private message: string;
+	private author: number;
+	private title: string;
+	private type: string;
+	private first_name: string;
+	private last_name: string;
 
-export class DataService {
+	constructor(id: number, message: string,
+		author: number, title: string,
+		type: string, first_name: string,
+		last_name: string) {
 
-	constructor(private http: Http) {}
-
-	userLogin(body) {
-		return this.http
-			.post('http://localhost:4000/users/login', body, { headers: contentHeaders })
-			.map(res => res.json());
 	}
+}
 
-	getUser(userId) {
-		return this.http
-			.get('http://localhost:4000/users/' + userId)
-			.map(res => res.json());
-	}
-
-	getAllGroups() {
-		return this.http
-			.get('http://lvs.azurewebsites.net/groups')
-			.map(res => res.json());
-	}
-
-	getDetailsGroup(groupId) {
-		return this.http
-			.get('http://lvs.azurewebsites.net/groups/' + groupId)
-			.map(res => res.json());
-	}
-
+export class Test {
+	public id: number;
+	private date: Date;
+	private title: string;
+	private description: string;
 }

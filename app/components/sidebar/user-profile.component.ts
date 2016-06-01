@@ -1,25 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SharedService } from '../../services/shared.service';
+import { DataService } from '../../services/data.service';
+import { User } from '../../models/models';
 
 @Component({
 	selector: 'user-profile',
 	template: `
 		<header class="demo-drawer-header">
-			<img src="vendor/images/user.jpg" class="demo-avatar">
-			<div class="demo-avatar-dropdown">
-				<span>hello@example.com</span>
+			<div *ngIf="currentUser">
+				<h4>User details</h4>
+				<p>Voornaam: {{ currentUser.first_name }}</p>
+				<p>Achternaa: {{ currentUser.last_name }}</p>
+				<p>Email: {{ currentUser.email }}</p>
 				<div class="mdl-layout-spacer"></div>
-				<button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-					<i class="material-icons" role="presentation">arrow_drop_down</i>
-					<span class="visuallyhidden">Accounts</span>
-				</button>
-				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-					<li class="mdl-menu__item">hello@example.com</li>
-					<li class="mdl-menu__item">info@example.com</li>
-					<li class="mdl-menu__item"><i class="material-icons">add</i>Add another account...</li>
-				</ul>
 			</div>
 		</header>
+	`,
+	styles: [
+	`	
+		.demo-drawer-header h4 {
+			margin-bottom: 10px;
+			text-align: center;
+		}
+		.demo-drawer-header p {
+			margin-bottom: 0;
+			text-align: center;
+		}
 	`
+	]
 })
 
-export class UserProfileComponent {}
+export class UserProfileComponent implements OnInit {
+	private currentUser: Object;
+	private userId: number;
+
+	constructor(private dataService: DataService,
+				private sharedService: SharedService<User>) {}
+
+	ngOnInit() {
+		this.userId = localStorage.getItem('userId');
+
+        if (this.userId) {
+            this.dataService.getUser(this.userId)
+                .subscribe(user => {
+                    this.sharedService.setCurrentUser(user);
+                    this.currentUser = this.sharedService.getCurrentUser();
+                })
+        }
+	}
+
+
+}

@@ -18,14 +18,6 @@ import { Location } from '@angular/common';
 					<label class="mdl-textfield__label" for="search">Enter your query...</label>
 				</div>
 			</div>
-			<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
-				<i class="material-icons">more_vert</i>
-			</button>
-			<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-				<li class="mdl-menu__item">About</li>
-				<li class="mdl-menu__item">Contact</li>
-				<li class="mdl-menu__item">Legal information</li>
-			</ul>
 		</div>
 	`
 })
@@ -43,11 +35,30 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-		this.title = location.hash;
-		console.log(location.hash);
+		this.setTitle();
     }
 
     getRoute() {
-        this.title = location.hash;
+        this.setTitle();
+    }
+
+    setTitle() {
+		if (location.hash === "#/home") {
+			this.title = "Home";
+		} else if (location.hash === "#/groups") {
+			this.title = "Groups";
+		} else if (location.hash === "#/announcements") {
+			this.title = "Announcements";
+		} else if (location.hash === "#/tests") {
+			this.title = "Tests";
+		} else if (location.hash === "#/students") {
+			this.title = "Students";
+		} else if (location.hash.indexOf("#/student/") > -1) {
+			this.title = "Student " + location.hash.slice(-1);
+		} else if (location.hash.indexOf("#/group/") > -1) {
+			this.title = "Group " + location.hash.slice(-1);
+		} else {
+			this.title = "undefined";
+		}
     }
 }	

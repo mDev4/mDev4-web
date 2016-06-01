@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Group, DataService } from '../core/data.service';
+import { DataService } from '../../services/data.service';
+import { User, Group } from '../../models/models';
 
 @Component({
 	selector: 'groups',
-	providers: [ DataService ],
 	template: `
-		<div class="mdl-spinner mdl-js-spinner is-active"></div>
 		<table class="mdl-data-table mdl-js-data-table mdl-cell--12-col" *ngIf="groups && groups.length > 0">
 		    <thead>
 		        <tr>
